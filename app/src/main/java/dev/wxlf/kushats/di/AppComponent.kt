@@ -5,12 +5,14 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import dev.wxlf.kushats.KushatsApp
+import dev.wxlf.kushats.core.di.NetworkModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
-        AndroidSupportInjectionModule::class
+        AndroidSupportInjectionModule::class,
+        NetworkModule::class
     ]
 )
 interface AppComponent {
