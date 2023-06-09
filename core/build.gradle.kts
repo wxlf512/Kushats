@@ -1,22 +1,19 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kapt)
 }
 
 android {
-    namespace = "dev.wxlf.kushats"
+    namespace = "dev.wxlf.kushats.core"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "dev.wxlf.kushats"
         minSdk = 28
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -35,15 +32,9 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    dataBinding {
-        enable = true
-    }
 }
 
 dependencies {
-
-    // Project
-    implementation(projects.core)
 
     // Core
     implementation(libs.core.ktx)
@@ -51,15 +42,18 @@ dependencies {
     // UI
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.constraintlayout)
-
-    // Navigation
-    implementation(libs.bundles.navigation)
 
     // Dagger2
     implementation(libs.dagger2)
     api(libs.bundles.dagger2.api)
     kapt(libs.bundles.dagger2.kapt)
+
+    // OkHttp3
+    implementation(platform(libs.okhttp3.bom))
+    implementation(libs.bundles.okhttp3)
+
+    // Retrofit
+    implementation(libs.bundles.retrofit2)
 
     // Test
     testImplementation(libs.junit)

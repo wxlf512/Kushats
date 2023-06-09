@@ -10,6 +10,8 @@ material = "1.9.0"
 constraintlayout = "2.1.4"
 dagger2 = "2.46.1"
 androidx-navigation = "2.6.0"
+okhttp3 = "4.11.0"
+retrofit2 = "2.9.0"
 
 [libraries]
 # Core
@@ -36,12 +38,24 @@ dagger2-android-support = { group = "com.google.dagger", name = "dagger-android-
 dagger2-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger2" }
 dagger2-android-processor = { group = "com.google.dagger", name = "dagger-android-processor", version.ref = "dagger2" }
 
+# OkHttp3
+okhttp3-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp3" }
+okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp" }
+okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+
+# Retrofit
+retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
+retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
 [bundles]
 navigation = ["navigation-fragment-ktx", "navigation-ui-ktx"]
 dagger2-api = ["dagger2-android", "dagger2-android-support"]
 dagger2-kapt = ["dagger2-compiler", "dagger2-android-processor"]
+okhttp3 = ["okhttp3", "okhttp3-logging-interceptor"]
+retrofit2 = ["retrofit2", "retrofit2-converter-gson"]
