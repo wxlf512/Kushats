@@ -6,13 +6,16 @@ import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import dev.wxlf.kushats.KushatsApp
 import dev.wxlf.kushats.core.di.NetworkModule
-import javax.inject.Singleton
+import dev.wxlf.kushats.feature_categories.di.CategoriesComponent
 
-@Singleton
+@AppScope
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
         NetworkModule::class
+    ],
+    dependencies = [
+        CategoriesComponent::class
     ]
 )
 interface AppComponent {
@@ -21,6 +24,8 @@ interface AppComponent {
     interface AppComponentBuilder {
         @BindsInstance
         fun application(application: Application): AppComponentBuilder
+
+        fun categoriesComponent(categoriesComponent: CategoriesComponent): AppComponentBuilder
 
         fun build(): AppComponent
     }
