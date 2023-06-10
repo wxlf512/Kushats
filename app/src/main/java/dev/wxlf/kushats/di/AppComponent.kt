@@ -3,32 +3,40 @@ package dev.wxlf.kushats.di
 import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import dev.wxlf.kushats.KushatsApp
 import dev.wxlf.kushats.core.di.NetworkModule
-import dev.wxlf.kushats.feature_categories.di.CategoriesComponent
+import dev.wxlf.kushats.di.viewmodel.ViewModelFactoryModule
+import dev.wxlf.kushats.di.viewmodel.ViewModelModule
+import dev.wxlf.kushats.feature_categories.di.modules.CategoriesDataModule
+import dev.wxlf.kushats.feature_categories.di.modules.CategoriesModule
+import dev.wxlf.kushats.feature_categories.di.modules.CategoriesUseCaseModule
+import dev.wxlf.kushats.feature_categories.presentation.fragments.CategoriesFragment
+import javax.inject.Singleton
 
-@AppScope
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
-        NetworkModule::class
-    ],
-    dependencies = [
-        CategoriesComponent::class
+        MainActivityModule::class,
+        NetworkModule::class,
+        ViewModelFactoryModule::class,
+        ViewModelModule::class,
+        CategoriesModule::class,
+        CategoriesDataModule::class,
+        CategoriesUseCaseModule::class
     ]
 )
-interface AppComponent {
+@Singleton
+interface AppComponent : AndroidInjector<KushatsApp> {
 
     @Component.Builder
     interface AppComponentBuilder {
         @BindsInstance
         fun application(application: Application): AppComponentBuilder
 
-        fun categoriesComponent(categoriesComponent: CategoriesComponent): AppComponentBuilder
-
         fun build(): AppComponent
     }
 
-    fun inject(kushatsApp: KushatsApp)
+    fun inject(categoriesFragment: CategoriesFragment)
 }

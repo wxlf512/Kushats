@@ -7,19 +7,19 @@ import dev.wxlf.kushats.core.di.NetworkModule
 import dev.wxlf.kushats.feature_categories.data.FoodRepositoryImpl
 import dev.wxlf.kushats.feature_categories.data.datasources.remote.FoodRemoteDataSource
 import dev.wxlf.kushats.feature_categories.data.datasources.remote.FoodRetrofitDataSource
-import dev.wxlf.kushats.feature_categories.di.CategoriesScope
 import dev.wxlf.kushats.feature_categories.domain.FoodRepository
+import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class])
-class DataModule {
+class CategoriesDataModule {
 
     @Provides
-    @CategoriesScope
+    @Singleton
     fun provideFoodRetrofitDataSource(foodApi: FoodApi): FoodRemoteDataSource =
         FoodRetrofitDataSource(foodApi)
 
     @Provides
-    @CategoriesScope
+    @Singleton
     fun provideFoodRepository(foodRemoteDataSource: FoodRemoteDataSource): FoodRepository =
         FoodRepositoryImpl(foodRemoteDataSource)
 }

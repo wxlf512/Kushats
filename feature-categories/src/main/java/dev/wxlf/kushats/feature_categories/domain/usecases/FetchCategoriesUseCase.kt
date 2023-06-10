@@ -6,16 +6,16 @@ import java.lang.Exception
 
 class FetchCategoriesUseCase(private val foodRepository: FoodRepository) {
 
-    sealed class FetchCategoriesResult {
-        object Loading : FetchCategoriesResult()
-        data class Success(val categories: CategoriesModel) : FetchCategoriesResult()
-        data class Failure(val msg: String) : FetchCategoriesResult()
+    sealed class Result {
+        object Loading : Result()
+        data class Success(val categories: CategoriesModel) : Result()
+        data class Failure(val msg: String) : Result()
     }
 
-    suspend operator fun invoke(): FetchCategoriesResult =
+    suspend operator fun invoke(): Result =
         try {
-            FetchCategoriesResult.Success(foodRepository.fetchCategories())
+            Result.Success(foodRepository.fetchCategories())
         } catch (e: Exception) {
-            FetchCategoriesResult.Failure(e.localizedMessage.orEmpty())
+            Result.Failure(e.localizedMessage.orEmpty())
         }
 }
