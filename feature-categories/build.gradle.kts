@@ -1,22 +1,19 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kapt)
 }
 
 android {
-    namespace = "dev.wxlf.kushats"
+    namespace = "dev.wxlf.kushats.feature_categories"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "dev.wxlf.kushats"
         minSdk = 28
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -44,15 +41,16 @@ dependencies {
 
     // Project
     implementation(projects.core)
-    implementation(projects.featureCategories)
 
     // Core
     implementation(libs.core.ktx)
+    implementation(libs.legacy.support.v4)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
 
     // UI
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.constraintlayout)
 
     // Navigation
     implementation(libs.bundles.navigation)

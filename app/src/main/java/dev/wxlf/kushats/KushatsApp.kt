@@ -20,7 +20,10 @@ class KushatsApp : Application(), HasAndroidInjector {
     override fun onCreate() {
         super.onCreate()
 
-        appComponent = DaggerAppComponent.builder().application(this).build()
+        appComponent = DaggerAppComponent.builder()
+            .application(this)
+            .build()
+
         appComponent.inject(this)
     }
 }
