@@ -60,6 +60,9 @@ dependencies {
     api(libs.bundles.dagger2.api)
     kapt(libs.bundles.dagger2.kapt)
 
+    // GMS
+    implementation(libs.play.services.location)
+
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

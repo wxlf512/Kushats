@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="location_icon">Location icon</string>
+    <string name="user_city_placeholder">Санкт-Петербург</string>
+    <string name="date_placeholder">12 Августа, 2023</string>
+    <string name="profile_picture">Profile picture</string>
+</resources>

@@ -15,6 +15,7 @@ retrofit2 = "2.9.0"
 legacy-support-v4 = "1.0.0"
 lifecycle-livedata-ktx = "2.6.1"
 lifecycle-viewmodel-ktx = "2.6.1"
+android-gms = "21.0.1"
 
 [libraries]
 # Core
@@ -52,6 +53,9 @@ retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter
 legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacy-support-v4" }
 lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle-livedata-ktx" }
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel-ktx" }
+
+# GMS
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref="android-gms" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
