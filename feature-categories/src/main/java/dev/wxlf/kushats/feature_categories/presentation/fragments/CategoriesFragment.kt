@@ -127,7 +127,7 @@ class CategoriesFragment : Fragment() {
                 currentLocation = location
             }
         }
-        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_LOW_POWER, 5,).build()
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_LOW_POWER, 5).build()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         if (ActivityCompat.checkSelfPermission(
