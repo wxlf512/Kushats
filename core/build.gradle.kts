@@ -32,6 +32,11 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
@@ -54,6 +59,11 @@ dependencies {
 
     // Retrofit
     implementation(libs.bundles.retrofit2)
+
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
 
     // Test
     testImplementation(libs.junit)
