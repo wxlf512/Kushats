@@ -12,7 +12,7 @@ import dev.wxlf.kushats.core.data.entities.ProductEntity.Companion.BAG_TABLE
 @Dao
 interface BagDao {
 
-    @Insert(ProductEntity::class)
+    @Insert(ProductEntity::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProduct(productEntity: ProductEntity)
 
     @Query("SELECT * FROM $BAG_TABLE")

@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature-catalog")
+
+
 include(":feature-categories")
 
 
