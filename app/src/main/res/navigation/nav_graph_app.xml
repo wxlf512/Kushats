@@ -9,4 +9,9 @@
         android:name="dev.wxlf.kushats.feature_categories.presentation.fragments.CategoriesFragment"
         android:label="CategoriesFragment"
         tools:layout="@layout/fragment_categories" />
+    <fragment
+        android:id="@+id/placeholderFragment"
+        android:name="dev.wxlf.kushats.PlaceholderFragment"
+        android:label="fragment_placeholder"
+        tools:layout="@layout/fragment_placeholder" />
 </navigation>
