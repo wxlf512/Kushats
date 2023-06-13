@@ -18,6 +18,7 @@ lifecycle-viewmodel-ktx = "2.6.1"
 android-gms = "21.0.1"
 adapterdelegates = "4.3.2"
 coil = "2.4.0"
+room = "2.5.1"
 
 [libraries]
 # Core
@@ -65,6 +66,11 @@ adapterdelegates4-kotlin-dsl-viewbinding = { group = "com.hannesdorfmann", name 
 
 # Coil
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+
+# Room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

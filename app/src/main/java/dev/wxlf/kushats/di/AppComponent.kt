@@ -7,6 +7,9 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import dev.wxlf.kushats.KushatsApp
 import dev.wxlf.kushats.core.di.NetworkModule
+import dev.wxlf.kushats.core.di.RoomModule
+import dev.wxlf.kushats.di.modules.ContextModule
+import dev.wxlf.kushats.di.modules.MainActivityModule
 import dev.wxlf.kushats.di.viewmodel.ViewModelFactoryModule
 import dev.wxlf.kushats.di.viewmodel.ViewModelModule
 import dev.wxlf.kushats.feature_categories.di.modules.CategoriesDataModule
@@ -18,10 +21,15 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
+        ContextModule::class,
         MainActivityModule::class,
+        //Data
         NetworkModule::class,
+        RoomModule::class,
+        //ViewModel
         ViewModelFactoryModule::class,
         ViewModelModule::class,
+        //Categories
         CategoriesModule::class,
         CategoriesDataModule::class,
         CategoriesUseCaseModule::class

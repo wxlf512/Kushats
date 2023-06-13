@@ -1,4 +1,4 @@
-package dev.wxlf.kushats.di
+package dev.wxlf.kushats.di.modules
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
