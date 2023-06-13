@@ -13,6 +13,7 @@ import dev.wxlf.kushats.di.modules.MainActivityModule
 import dev.wxlf.kushats.di.viewmodel.ViewModelFactoryModule
 import dev.wxlf.kushats.di.viewmodel.ViewModelModule
 import dev.wxlf.kushats.feature_catalog.di.modules.CatalogDataModule
+import dev.wxlf.kushats.feature_catalog.di.modules.CatalogUseCaseModule
 import dev.wxlf.kushats.feature_categories.di.modules.CategoriesDataModule
 import dev.wxlf.kushats.feature_categories.di.modules.CategoriesModule
 import dev.wxlf.kushats.feature_categories.di.modules.CategoriesUseCaseModule
@@ -36,7 +37,7 @@ import javax.inject.Singleton
         CategoriesUseCaseModule::class,
         //Catalog
         CatalogDataModule::class,
-
+        CatalogUseCaseModule::class
     ]
 )
 @Singleton
