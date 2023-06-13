@@ -5,6 +5,7 @@ import dagger.Provides
 import dev.wxlf.kushats.feature_catalog.domain.repositories.BagRepository
 import dev.wxlf.kushats.feature_catalog.domain.repositories.FoodRepository
 import dev.wxlf.kushats.feature_catalog.domain.usecases.AddProductToBagUseCase
+import dev.wxlf.kushats.feature_catalog.domain.usecases.FetchCategoryUseCase
 import dev.wxlf.kushats.feature_catalog.domain.usecases.FetchDishesUseCase
 import javax.inject.Singleton
 
@@ -20,4 +21,9 @@ class CatalogUseCaseModule {
     @Singleton
     fun provideAddProductUseCase(bagRepository: BagRepository): AddProductToBagUseCase =
         AddProductToBagUseCase(bagRepository)
+
+    @Provides
+    @Singleton
+    fun provideFetchCategoryUseCase(foodRepository: FoodRepository): FetchCategoryUseCase =
+        FetchCategoryUseCase(foodRepository)
 }
