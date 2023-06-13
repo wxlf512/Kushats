@@ -19,6 +19,7 @@ class CategoriesViewModel @Inject constructor(
 
     fun fetchCategories() =
         viewModelScope.launch(Dispatchers.IO) {
+            _fetchCategoriesState.emit(FetchCategoriesUseCase.Result.Loading)
             _fetchCategoriesState.emit(fetchCategoriesUseCase())
         }
 }

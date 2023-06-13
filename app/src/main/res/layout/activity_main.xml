@@ -31,6 +31,8 @@
         app:itemActiveIndicatorStyle="@null"
         app:itemIconTint="@color/nav_item_color"
         app:itemTextColor="@color/nav_item_color"
+        app:itemTextAppearanceActive="@style/BottomNavigation.ItemTextAppearance"
+        app:itemTextAppearanceInactive="@style/BottomNavigation.ItemTextAppearance"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/navigation_bar_menu" />
 
