@@ -64,5 +64,22 @@
             android:scaleType="fitEnd"
             android:src="@drawable/profile_pic_placeholder" />
     </LinearLayout>
-    
+
+    <ProgressBar
+        android:id="@+id/circular_loader"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categories_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="16dp"
+        android:paddingTop="@dimen/categories_spacer"
+        android:clipToPadding="false"
+        tools:itemCount="4"
+        tools:listitem="@layout/category_item" />
+
 </LinearLayout>

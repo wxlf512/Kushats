@@ -1,7 +1,9 @@
 package dev.wxlf.kushats.feature_categories.domain.usecases
 
 import dev.wxlf.kushats.core.data.models.CategoriesModel
+import dev.wxlf.kushats.core.data.models.CategoryModel
 import dev.wxlf.kushats.feature_categories.domain.FoodRepository
+import dev.wxlf.kushats.feature_categories.presentation.adapterdelegates.CategoryDisplayableItem
 import java.lang.Exception
 
 class FetchCategoriesUseCase(private val foodRepository: FoodRepository) {
@@ -19,3 +21,9 @@ class FetchCategoriesUseCase(private val foodRepository: FoodRepository) {
             Result.Failure(e.localizedMessage.orEmpty())
         }
 }
+
+fun CategoriesModel.mapToDisplayable(): List<CategoryDisplayableItem> =
+    this.categories.map { it.mapToDisplayable() }
+
+fun CategoryModel.mapToDisplayable(): CategoryDisplayableItem =
+    CategoryDisplayableItem(id, name, imageUrl)

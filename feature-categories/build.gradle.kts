@@ -63,6 +63,12 @@ dependencies {
     // GMS
     implementation(libs.play.services.location)
 
+    // AdapterDelegates
+    implementation(libs.bundles.adapterdelegates4)
+
+    // Coil
+    implementation(libs.coil)
+
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

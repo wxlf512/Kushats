@@ -16,6 +16,8 @@ legacy-support-v4 = "1.0.0"
 lifecycle-livedata-ktx = "2.6.1"
 lifecycle-viewmodel-ktx = "2.6.1"
 android-gms = "21.0.1"
+adapterdelegates = "4.3.2"
+coil = "2.4.0"
 
 [libraries]
 # Core
@@ -57,6 +59,13 @@ lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-view
 # GMS
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref="android-gms" }
 
+# AdapterDelegates
+adapterdelegates4-kotlin-dsl = { group = "com.hannesdorfmann", name = "adapterdelegates4-kotlin-dsl", version.ref = "adapterdelegates" }
+adapterdelegates4-kotlin-dsl-viewbinding = { group = "com.hannesdorfmann", name = "adapterdelegates4-kotlin-dsl-viewbinding", version.ref = "adapterdelegates" }
+
+# Coil
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -69,3 +78,4 @@ dagger2-api = ["dagger2-android", "dagger2-android-support"]
 dagger2-kapt = ["dagger2-compiler", "dagger2-android-processor"]
 okhttp3 = ["okhttp3", "okhttp3-logging-interceptor"]
 retrofit2 = ["retrofit2", "retrofit2-converter-gson"]
+adapterdelegates4 = ["adapterdelegates4-kotlin-dsl", "adapterdelegates4-kotlin-dsl-viewbinding"]
