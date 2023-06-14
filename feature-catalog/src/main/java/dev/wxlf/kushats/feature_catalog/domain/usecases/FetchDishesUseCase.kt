@@ -1,7 +1,9 @@
 package dev.wxlf.kushats.feature_catalog.domain.usecases
 
+import dev.wxlf.kushats.core.data.models.DishModel
 import dev.wxlf.kushats.core.data.models.DishesModel
 import dev.wxlf.kushats.feature_catalog.domain.repositories.FoodRepository
+import dev.wxlf.kushats.feature_catalog.presentation.adapterdelegates.DishDisplayableItem
 
 class FetchDishesUseCase(private val foodRepository: FoodRepository) {
 
@@ -18,3 +20,9 @@ class FetchDishesUseCase(private val foodRepository: FoodRepository) {
             Result.Failure(e.localizedMessage.orEmpty())
         }
 }
+
+fun DishesModel.mapToDisplayable(): List<DishDisplayableItem> =
+    this.dishes.map { it.mapToDisplayable() }
+
+fun DishModel.mapToDisplayable(): DishDisplayableItem =
+    DishDisplayableItem(id, name, imageUrl)

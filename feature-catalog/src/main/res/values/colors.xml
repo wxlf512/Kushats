@@ -2,4 +2,5 @@
 <resources>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
+    <color name="product_image_background">#FFF8F7F5</color>
 </resources>

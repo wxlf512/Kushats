@@ -1,17 +1,25 @@
 package dev.wxlf.kushats.feature_catalog.presentation.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import dagger.android.support.AndroidSupportInjection
 import dev.wxlf.kushats.feature_catalog.databinding.FragmentCatalogBinding
 import dev.wxlf.kushats.feature_catalog.domain.usecases.FetchCategoryUseCase
+import dev.wxlf.kushats.feature_catalog.domain.usecases.FetchDishesUseCase
+import dev.wxlf.kushats.feature_catalog.domain.usecases.mapToDisplayable
+import dev.wxlf.kushats.feature_catalog.presentation.adapterdelegates.DisplayableItem
+import dev.wxlf.kushats.feature_catalog.presentation.adapterdelegates.dishesAdapterDelegate
 import dev.wxlf.kushats.feature_catalog.presentation.viewmodels.CatalogViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -44,10 +52,26 @@ class CatalogFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        val adapter = ListDelegationAdapter<List<DisplayableItem>>(
+            dishesAdapterDelegate {
+                Toast.makeText(requireContext(), it.name, Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        binding.productsList.layoutManager =
+            GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+        binding.productsList.adapter = adapter
+
         viewModel.fetchCategory(safeArgs.categoryId)
+        viewModel.fetchDishes()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchCategoryState.collect { result ->
@@ -55,17 +79,36 @@ class CatalogFragment : Fragment() {
                     is FetchCategoryUseCase.Result.Failure -> {
                         // TODO
                     }
+
                     FetchCategoryUseCase.Result.Loading -> {
                         // TODO
                     }
+
                     FetchCategoryUseCase.Result.NotFound -> {
                         // TODO
                     }
+
                     is FetchCategoryUseCase.Result.Success -> {
                         binding.title.text = result.category.name
-                        binding.backButton.setOnClickListener {
-                            findNavController().navigateUp()
-                        }
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchDishesState.collect { result ->
+                when (result) {
+                    is FetchDishesUseCase.Result.Failure -> {
+                        // TODO
+                    }
+
+                    FetchDishesUseCase.Result.Loading -> {
+                        // TODO
+                    }
+
+                    is FetchDishesUseCase.Result.Success -> {
+                        adapter.items = result.dishes.mapToDisplayable()
+                        adapter.notifyDataSetChanged()
                     }
                 }
             }

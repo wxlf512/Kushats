@@ -6,4 +6,16 @@
         <item name="android:textSize">10sp</item>
         <item name="android:lineHeight">11dp</item>
     </style>
+
+    <style name="Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:lineHeight">15dp</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+        <item name="chipCornerRadius">10dp</item>
+        <item name="chipStartPadding">16dp</item>
+        <item name="chipEndPadding">16dp</item>
+        <item name="chipMinHeight">35dp</item>
+    </style>
 </resources>
