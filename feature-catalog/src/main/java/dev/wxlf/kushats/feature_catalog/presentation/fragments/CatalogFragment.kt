@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.chip.Chip
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import dagger.android.support.AndroidSupportInjection
 import dev.wxlf.kushats.feature_catalog.databinding.FragmentCatalogBinding
@@ -71,7 +72,11 @@ class CatalogFragment : Fragment() {
         binding.productsList.adapter = adapter
 
         viewModel.fetchCategory(safeArgs.categoryId)
-        viewModel.fetchDishes()
+        viewModel.fetchDishes(binding.chips.findViewById<Chip>(binding.chips.checkedChipId).text.toString())
+
+        binding.chips.setOnCheckedStateChangeListener { group, checkedIds ->
+            viewModel.fetchDishes(group.findViewById<Chip>(checkedIds[0]).text.toString())
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchCategoryState.collect { result ->
