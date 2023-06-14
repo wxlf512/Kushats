@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="category_not_found">Category not found</string>
+    <string name="back_button">Back Button</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="title_placeholder">Title</string>
 </resources>

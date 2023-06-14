@@ -61,7 +61,7 @@ class CatalogFragment : Fragment() {
                         // TODO
                     }
                     is FetchCategoryUseCase.Result.Success -> {
-                        binding.textView.text = result.category.toString()
+                        binding.title.text = result.category.name
                     }
                 }
             }
