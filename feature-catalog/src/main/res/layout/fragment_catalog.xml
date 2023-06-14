@@ -64,7 +64,8 @@
             app:checkedChip="@id/allMenuChip"
             app:singleLine="true"
             app:singleSelection="true"
-            app:selectionRequired="true" >
+            app:selectionRequired="true"
+            tools:ignore="VisualLintBounds">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/allMenuChip"
@@ -108,5 +109,13 @@
         app:spanCount="3"
         tools:listitem="@layout/product_item"
         tools:itemCount="25"/>
+
+    <ProgressBar
+        android:id="@+id/circularLoader"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
 </LinearLayout>

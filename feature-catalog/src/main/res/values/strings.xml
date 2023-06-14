@@ -11,4 +11,7 @@
     <string name="rolls_chip">Роллы</string>
     <string name="product_image">Product image</string>
     <string name="product_title_placeholder">Товар</string>
+    <string name="error_dialog_title">Ошибка</string>
+    <string name="retry_error_dialog_button">Повторить</string>
+    <string name="back_error_dialog_button">Назад</string>
 </resources>

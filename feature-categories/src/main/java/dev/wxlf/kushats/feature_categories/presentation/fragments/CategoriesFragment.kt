@@ -32,7 +32,6 @@ import dev.wxlf.kushats.feature_categories.R
 import dev.wxlf.kushats.feature_categories.databinding.FragmentCategoriesBinding
 import dev.wxlf.kushats.feature_categories.domain.usecases.FetchCategoriesUseCase
 import dev.wxlf.kushats.feature_categories.domain.usecases.mapToDisplayable
-import dev.wxlf.kushats.feature_categories.presentation.adapterdelegates.DisplayableItem
 import dev.wxlf.kushats.feature_categories.presentation.adapterdelegates.categoryAdapterDelegate
 import dev.wxlf.kushats.feature_categories.presentation.viewmodels.CategoriesViewModel
 import kotlinx.coroutines.launch
@@ -84,7 +83,7 @@ class CategoriesFragment : Fragment() {
         val formatter = SimpleDateFormat("d MMMM, y", resources.configuration.locales.get(0))
         binding.date.text = formatter.format(Date())
 
-        val adapter = ListDelegationAdapter<List<DisplayableItem>>(
+        val adapter = ListDelegationAdapter(
             categoryAdapterDelegate {
                 findNavController().navigate(Uri.parse(DeepLinks.CATALOG.link + it.id))
             }
@@ -101,12 +100,9 @@ class CategoriesFragment : Fragment() {
                         binding.circularLoader.visibility = View.GONE
                         binding.categoriesList.visibility = View.GONE
                         AlertDialog.Builder(requireContext())
-                            .setTitle(getString(R.string.error_dialog_title))
+                            .setTitle(R.string.error_dialog_title)
                             .setMessage(result.msg)
-                            .setPositiveButton(
-                                getString(R.string.retry_error_dialog_button)
-                            ) { dialog, _ ->
-                                dialog?.dismiss()
+                            .setPositiveButton(R.string.retry_error_dialog_button) { _, _ ->
                             }
                             .setOnDismissListener {
                                 viewModel.fetchCategories()

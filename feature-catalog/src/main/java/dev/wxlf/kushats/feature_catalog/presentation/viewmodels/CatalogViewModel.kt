@@ -43,11 +43,13 @@ class CatalogViewModel @Inject constructor(
             _fetchDishesState.emit(FetchDishesUseCase.Result.Loading)
             val result = fetchDishesUseCase()
             if (result is FetchDishesUseCase.Result.Success)
-                _fetchDishesState.emit(FetchDishesUseCase.Result.Success(DishesModel(result.dishes.dishes.filter {
-                    it.tags.contains(
-                        tag
+                _fetchDishesState.emit(
+                    FetchDishesUseCase.Result.Success(
+                        DishesModel(result.dishes.dishes.filter {
+                            it.tags.contains(tag)
+                        })
                     )
-                })))
+                )
             else
                 _fetchDishesState.emit(result)
         }
