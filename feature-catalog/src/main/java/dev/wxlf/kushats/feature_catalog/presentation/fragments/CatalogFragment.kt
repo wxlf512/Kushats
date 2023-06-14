@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.android.support.AndroidSupportInjection
 import dev.wxlf.kushats.feature_catalog.databinding.FragmentCatalogBinding
@@ -62,6 +63,9 @@ class CatalogFragment : Fragment() {
                     }
                     is FetchCategoryUseCase.Result.Success -> {
                         binding.title.text = result.category.name
+                        binding.backButton.setOnClickListener {
+                            findNavController().navigateUp()
+                        }
                     }
                 }
             }
