@@ -11,6 +11,7 @@
         android:id="@+id/imageHolder"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:cardElevation="0dp"
         app:cardBackgroundColor="@color/product_image_background"
         app:cardCornerRadius="10dp"
         app:layout_constraintDimensionRatio="H,1:1"
