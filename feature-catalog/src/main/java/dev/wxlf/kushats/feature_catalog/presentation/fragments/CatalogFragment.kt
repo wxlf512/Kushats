@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import dagger.android.support.AndroidSupportInjection
 import dev.wxlf.kushats.feature_catalog.R
@@ -139,7 +140,7 @@ class CatalogFragment : Fragment() {
 
     private fun showError(msg: String) {
         if (alertDialog == null) {
-            alertDialog = AlertDialog.Builder(requireContext())
+            alertDialog = MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.error_dialog_title)
                 .setMessage(msg)
                 .setPositiveButton(R.string.retry_error_dialog_button) { _, _ ->

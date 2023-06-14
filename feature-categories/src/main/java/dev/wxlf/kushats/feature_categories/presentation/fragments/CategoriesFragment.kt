@@ -25,6 +25,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import dagger.android.support.AndroidSupportInjection
 import dev.wxlf.kushats.core.DeepLinks
@@ -99,7 +100,7 @@ class CategoriesFragment : Fragment() {
                     is FetchCategoriesUseCase.Result.Failure -> {
                         binding.circularLoader.visibility = View.GONE
                         binding.categoriesList.visibility = View.GONE
-                        AlertDialog.Builder(requireContext())
+                        MaterialAlertDialogBuilder(requireContext())
                             .setTitle(R.string.error_dialog_title)
                             .setMessage(result.msg)
                             .setPositiveButton(R.string.retry_error_dialog_button) { _, _ ->
