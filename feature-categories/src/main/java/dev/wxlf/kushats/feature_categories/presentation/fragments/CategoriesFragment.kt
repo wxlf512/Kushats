@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -25,6 +27,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import dagger.android.support.AndroidSupportInjection
+import dev.wxlf.kushats.core.DeepLinks
 import dev.wxlf.kushats.feature_categories.R
 import dev.wxlf.kushats.feature_categories.databinding.FragmentCategoriesBinding
 import dev.wxlf.kushats.feature_categories.domain.usecases.FetchCategoriesUseCase
@@ -83,7 +86,7 @@ class CategoriesFragment : Fragment() {
 
         val adapter = ListDelegationAdapter<List<DisplayableItem>>(
             categoryAdapterDelegate {
-                Toast.makeText(requireContext(), it.name, Toast.LENGTH_SHORT).show()
+                findNavController().navigate(Uri.parse(DeepLinks.CATALOG.link + it.id))
             }
         )
 

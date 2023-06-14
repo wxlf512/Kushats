@@ -9,7 +9,7 @@ appcompat = "1.6.1"
 material = "1.9.0"
 constraintlayout = "2.1.4"
 dagger2 = "2.46.1"
-androidx-navigation = "2.6.0"
+androidx-navigation = "2.7.0-beta01"
 okhttp3 = "4.11.0"
 retrofit2 = "2.9.0"
 legacy-support-v4 = "1.0.0"
@@ -37,6 +37,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 # Navigation
 navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "androidx-navigation" }
 navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "androidx-navigation" }
+safe-args = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "androidx-navigation" }
 
 # Dagger2
 dagger2 = { group = "com.google.dagger", name = "dagger", version.ref = "dagger2" }
@@ -77,6 +78,7 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+safeArgs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation"}
 
 [bundles]
 navigation = ["navigation-fragment-ktx", "navigation-ui-ktx"]
