@@ -12,6 +12,9 @@ import dev.wxlf.kushats.di.modules.ContextModule
 import dev.wxlf.kushats.di.modules.MainActivityModule
 import dev.wxlf.kushats.di.viewmodel.ViewModelFactoryModule
 import dev.wxlf.kushats.di.viewmodel.ViewModelModule
+import dev.wxlf.kushats.feature_bag.di.modules.BagDataModule
+import dev.wxlf.kushats.feature_bag.di.modules.BagModule
+import dev.wxlf.kushats.feature_bag.di.modules.BagUseCaseModule
 import dev.wxlf.kushats.feature_catalog.di.modules.CatalogDataModule
 import dev.wxlf.kushats.feature_catalog.di.modules.CatalogModule
 import dev.wxlf.kushats.feature_catalog.di.modules.CatalogUseCaseModule
@@ -39,7 +42,11 @@ import javax.inject.Singleton
         //Catalog
         CatalogModule::class,
         CatalogDataModule::class,
-        CatalogUseCaseModule::class
+        CatalogUseCaseModule::class,
+        // Bag
+        BagModule::class,
+        BagDataModule::class,
+        BagUseCaseModule::class
     ]
 )
 @Singleton
