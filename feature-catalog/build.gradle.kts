@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.safeArgs)
 }
 
 android {
@@ -34,6 +35,9 @@ android {
     }
     buildFeatures {
         viewBinding = true
+    }
+    sourceSets {
+        getByName("main").java.srcDirs("build/generated/source/navigation-args")
     }
 }
 

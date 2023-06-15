@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="@dimen/category_item_height"
@@ -26,6 +27,6 @@
         android:textFontWeight="500"
         android:textSize="20sp"
         android:lineHeight="25dp"
-        android:text="@string/category_placeholder" />
+        tools:text="@string/category_placeholder" />
 
 </androidx.cardview.widget.CardView>

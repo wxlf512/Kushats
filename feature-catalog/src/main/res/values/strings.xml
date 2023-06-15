@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="category_not_found">Category not found</string>
+    <string name="category_not_found">Категория не найдена</string>
+    <string name="back_button">Back Button</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="title_placeholder">Категория</string>
+    <string name="all_menu_chip">Все меню</string>
+    <string name="salads_chip">Салаты</string>
+    <string name="rice_chip">С рисом</string>
+    <string name="fish_chip">С рыбой</string>
+    <string name="rolls_chip">Роллы</string>
+    <string name="product_image">Product image</string>
+    <string name="product_title_placeholder">Товар</string>
+    <string name="error_dialog_title">Ошибка</string>
+    <string name="retry_error_dialog_button">Повторить</string>
+    <string name="back_error_dialog_button">Назад</string>
+    <string name="product">Product</string>
+    <string name="favorite_button">Favorite button</string>
+    <string name="dismiss_button">Dismiss button</string>
+    <string name="dish_not_found">Товар не найден</string>
+    <string name="add_to_bag">Добавить в корзину</string>
+    <string name="product_description_placeholder">Описание товара</string>
+    <string name="price_and_weight_divider">&#032;·&#032;</string>
+    <string name="product_weight_placeholder">560г</string>
+    <string name="product_price_placeholder">799 ₽</string>
+    <string name="currency">₽</string>
+    <string name="mass_unit">г</string>
 </resources>

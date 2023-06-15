@@ -1,1 +1,4 @@
 /build
+/src/main/res/values/themes.xml
+/src/main/res/color/chip_background_color_preview.xml
+/src/main/res/color/chip_text_color_preview.xml

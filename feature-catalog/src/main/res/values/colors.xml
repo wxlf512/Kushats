@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="product_image_background">#FFF8F7F5</color>
+    <color name="product_weight_color">#66000000</color>
+    <color name="product_description_color">#A6000000</color>
+    <color name="add_to_bag_button_background_color">#FF3364E0</color>
+</resources>
