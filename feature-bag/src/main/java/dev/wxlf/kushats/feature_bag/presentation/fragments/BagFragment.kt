@@ -1,23 +1,22 @@
-package dev.wxlf.kushats.feature_categories.presentation.fragments
+package dev.wxlf.kushats.feature_bag.presentation.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
-import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -28,30 +27,33 @@ import com.google.android.gms.location.Priority
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import dagger.android.support.AndroidSupportInjection
-import dev.wxlf.kushats.core.DeepLinks
-import dev.wxlf.kushats.feature_categories.R
-import dev.wxlf.kushats.feature_categories.databinding.FragmentCategoriesBinding
-import dev.wxlf.kushats.feature_categories.domain.usecases.FetchCategoriesUseCase
-import dev.wxlf.kushats.feature_categories.domain.usecases.mapToDisplayable
-import dev.wxlf.kushats.feature_categories.presentation.adapterdelegates.categoryAdapterDelegate
-import dev.wxlf.kushats.feature_categories.presentation.viewmodels.CategoriesViewModel
+import dev.wxlf.kushats.feature_bag.R
+import dev.wxlf.kushats.feature_bag.common.ProductCount
+import dev.wxlf.kushats.feature_bag.databinding.FragmentBagBinding
+import dev.wxlf.kushats.feature_bag.domain.usecases.ChangeProductCountUseCase
+import dev.wxlf.kushats.feature_bag.domain.usecases.FetchDishesUseCase
+import dev.wxlf.kushats.feature_bag.domain.usecases.mapToDisplayable
+import dev.wxlf.kushats.feature_bag.presentation.adapterdelegates.productAdapterDelegate
+import dev.wxlf.kushats.feature_bag.presentation.viewmodels.BagViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
 
+class BagFragment : Fragment() {
 
-class CategoriesFragment : Fragment() {
-
-    private var _binding: FragmentCategoriesBinding? = null
+    private var _binding: FragmentBagBinding? = null
     private val binding get() = _binding!!
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    private lateinit var viewModel: CategoriesViewModel
+    private lateinit var viewModel: BagViewModel
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var currentLocation: Location? = null
+
+    private var fetchDishesAlertDialog: AlertDialog? = null
+    private var changeAlertDialog: AlertDialog? = null
 
     private val locationPermissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -60,7 +62,7 @@ class CategoriesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
-        viewModel = ViewModelProvider(this, factory)[CategoriesViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[BagViewModel::class.java]
         super.onCreate(savedInstanceState)
     }
 
@@ -69,13 +71,14 @@ class CategoriesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
+        _binding = FragmentBagBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var firstSuccess = false
 
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
@@ -84,56 +87,107 @@ class CategoriesFragment : Fragment() {
         val formatter = SimpleDateFormat("d MMMM, y", resources.configuration.locales.get(0))
         binding.date.text = formatter.format(Date())
 
+        binding.payButton.setOnClickListener {
+            Toast.makeText(requireContext(), getString(R.string.pay), Toast.LENGTH_LONG).show()
+        }
+
         val adapter = ListDelegationAdapter(
-            categoryAdapterDelegate {
-                findNavController().navigate(Uri.parse(DeepLinks.CATALOG.link + it.id), navOptions {
-                    popUpTo(R.id.categoriesFragment, popUpToBuilder = {
-                        inclusive = true
-                    })
-                })
-            }
+            productAdapterDelegate(
+                decrementClickListener = {
+                    viewModel.changeProductCount(
+                        it,
+                        ProductCount.DECREMENT
+                    )
+                },
+                incrementClickListener = {
+                    viewModel.changeProductCount(
+                        it,
+                        ProductCount.INCREMENT
+                    )
+                }
+            )
         )
 
-        binding.categoriesList.layoutManager =
+        binding.productsList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.categoriesList.adapter = adapter
+        binding.productsList.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.fetchCategoriesState.collect { result ->
+            viewModel.fetchDishesState.collect { result ->
                 when (result) {
-                    is FetchCategoriesUseCase.Result.Failure -> {
+                    is FetchDishesUseCase.Result.Failure -> {
                         binding.circularLoader.visibility = View.GONE
-                        binding.categoriesList.visibility = View.GONE
-                        MaterialAlertDialogBuilder(requireContext())
-                            .setTitle(R.string.error_dialog_title)
-                            .setMessage(result.msg)
-                            .setPositiveButton(R.string.retry_error_dialog_button) { _, _ ->
-                            }
-                            .setOnDismissListener {
-                                viewModel.fetchCategories()
-                            }
-                            .show()
+                        binding.productsList.visibility = View.GONE
+                        binding.payButton.visibility = View.GONE
+                        if (fetchDishesAlertDialog == null) {
+                            fetchDishesAlertDialog = MaterialAlertDialogBuilder(requireContext())
+                                .setTitle(R.string.error_dialog_title)
+                                .setMessage(result.msg)
+                                .setPositiveButton(R.string.retry_error_dialog_button) { _, _ ->
+                                }
+                                .setNegativeButton(R.string.back_error_dialog_button) { _, _ ->
+                                    findNavController().popBackStack()
+                                }
+                                .setOnDismissListener {
+                                    viewModel.fetchDishes()
+                                }
+                                .create()
+                        }
+                        fetchDishesAlertDialog?.show()
                     }
 
-                    FetchCategoriesUseCase.Result.Loading -> {
-                        binding.circularLoader.visibility = View.VISIBLE
-                        binding.categoriesList.visibility = View.GONE
+                    FetchDishesUseCase.Result.Loading -> {
+                        if (!firstSuccess) {
+                            binding.circularLoader.visibility = View.VISIBLE
+                            binding.productsList.visibility = View.GONE
+                            binding.payButton.visibility = View.GONE
+                        }
                     }
 
-                    is FetchCategoriesUseCase.Result.Success -> {
+                    is FetchDishesUseCase.Result.Success -> {
+                        firstSuccess = true
                         binding.circularLoader.visibility = View.GONE
-                        binding.categoriesList.visibility = View.VISIBLE
-                        adapter.items = result.categories.mapToDisplayable()
+                        binding.productsList.visibility = View.VISIBLE
+                        binding.payButton.visibility = View.VISIBLE
+
+                        val items = result.dishes.mapToDisplayable(result.products)
+                        adapter.items = items
                         adapter.notifyDataSetChanged()
+
+                        val sum = items.sumOf { it.count * it.price }
+                        binding.payButton.text =
+                            "${getString(R.string.pay_button)} $sum ${getString(R.string.currency)}"
                     }
                 }
             }
         }
 
-        viewModel.fetchCategories()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.changeProductCountState.collect { result ->
+                when (result) {
+                    is ChangeProductCountUseCase.Result.Failure -> {
+                        if (changeAlertDialog == null) {
+                            changeAlertDialog = MaterialAlertDialogBuilder(requireContext())
+                                .setTitle(R.string.error_dialog_title)
+                                .setMessage(result.msg)
+                                .setNegativeButton(getString(R.string.close_error_dialog_button)) { _, _ ->
+                                }
+                                .create()
+                        }
+                        changeAlertDialog?.show()
+                    }
+
+                    ChangeProductCountUseCase.Result.Loading -> {}
+                    ChangeProductCountUseCase.Result.Success -> {
+                        viewModel.fetchDishes()
+                    }
+                }
+            }
+        }
+
+        viewModel.fetchDishes()
     }
 
-    @Suppress("DEPRECATION")
     private fun fetchLocation() {
         if (ActivityCompat.checkSelfPermission
                 (
@@ -164,12 +218,12 @@ class CategoriesFragment : Fragment() {
             else {
                 val geocoder =
                     Geocoder(requireActivity().baseContext, resources.configuration.locales.get(0))
-                val addresses =
-                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    if (addresses != null) {
-                        if (addresses.size > 0)
-                            binding.userCity.text = addresses[0].locality
-                    }
+                @Suppress("DEPRECATION") val addresses =
+                    geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                if (addresses != null) {
+                    if (addresses.size > 0)
+                        binding.userCity.text = addresses[0].locality
+                }
             }
         }
     }

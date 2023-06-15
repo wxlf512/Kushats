@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="location_icon">Location icon</string>
+    <string name="user_city_placeholder">Санкт-Петербург</string>
+    <string name="date_placeholder">12 Августа, 2023</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="error_dialog_title">Ошибка</string>
+    <string name="retry_error_dialog_button">Повторить</string>
+    <string name="product_image">Product image</string>
+    <string name="product_name_placeholder">Товар</string>
+    <string name="price_and_weight_divider">&#032;·&#032;</string>
+    <string name="product_weight_placeholder">560г</string>
+    <string name="product_price_placeholder">799 ₽</string>
+    <string name="currency">₽</string>
+    <string name="mass_unit">г</string>
+    <string name="decrement_button">Decrement button</string>
+    <string name="increment_button">Increment button</string>
+    <string name="product_count_placeholder">1</string>
+    <string name="back_error_dialog_button">Назад</string>
+    <string name="close_error_dialog_button">Закрыть</string>
+    <string name="pay_placeholder">Оплатить 9999 ₽</string>
+    <string name="pay">Оплата</string>
+    <string name="pay_button">Оплатить</string>
+</resources>

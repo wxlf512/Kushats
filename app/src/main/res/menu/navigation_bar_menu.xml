@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_graph_categories"
+        android:id="@id/nav_graph_categories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/home_nav_icon"
@@ -14,6 +14,7 @@
         android:icon="@drawable/search_nav_icon"
         android:title="@string/nav_bar_search" />
     <item
+        android:id="@id/nav_graph_bag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/bag_nav_icon"

@@ -24,6 +24,5 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         NavigationUI.setupWithNavController(binding.navigationBar, navController)
-//        Catalog
     }
 }
