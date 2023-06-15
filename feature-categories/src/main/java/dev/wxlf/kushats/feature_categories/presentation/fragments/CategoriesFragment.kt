@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -85,7 +86,11 @@ class CategoriesFragment : Fragment() {
 
         val adapter = ListDelegationAdapter(
             categoryAdapterDelegate {
-                findNavController().navigate(Uri.parse(DeepLinks.CATALOG.link + it.id))
+                findNavController().navigate(Uri.parse(DeepLinks.CATALOG.link + it.id), navOptions {
+                    popUpTo(R.id.categoriesFragment, popUpToBuilder = {
+                        inclusive = true
+                    })
+                })
             }
         )
 
