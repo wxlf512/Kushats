@@ -66,7 +66,8 @@
                 android:text="@string/price_and_weight_divider"
                 android:textColor="@color/product_weight_color"
                 android:textFontWeight="400"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/weight"
@@ -77,6 +78,7 @@
                 android:textColor="@color/product_weight_color"
                 android:textFontWeight="400"
                 android:textSize="14sp"
+                tools:ignore="TextContrastCheck"
                 tools:text="@string/product_weight_placeholder" />
         </LinearLayout>
     </LinearLayout>
@@ -109,6 +111,7 @@
                     android:layout_weight="1"
                     android:contentDescription="@string/decrement_button"
                     android:src="@drawable/decrement_icon"
+                    android:background="@drawable/count_buttons_ripple"
                     tools:ignore="RedundantDescriptionCheck" />
 
                 <TextView
@@ -133,6 +136,7 @@
                     android:layout_weight="1"
                     android:contentDescription="@string/increment_button"
                     android:src="@drawable/increment_icon"
+                    android:background="@drawable/count_buttons_ripple"
                     tools:ignore="RedundantDescriptionCheck" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

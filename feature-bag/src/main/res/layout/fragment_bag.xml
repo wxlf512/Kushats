@@ -87,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/pay_button_background"
+        android:background="@drawable/pay_button_ripple"
         android:paddingVertical="15dp"
         android:gravity="center"
         android:textColor="@color/white"

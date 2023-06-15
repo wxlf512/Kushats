@@ -23,6 +23,7 @@
             android:clickable="true"
             android:contentDescription="@string/back_button"
             android:src="@drawable/back_icon"
+            android:background="@drawable/back_button_ripple"
             tools:ignore="RedundantDescriptionCheck,TouchTargetSizeCheck" />
 
         <TextView
