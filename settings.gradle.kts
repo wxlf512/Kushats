@@ -6,7 +6,7 @@ include(":feature-bag")
 include(":feature-catalog")
 
 
-include(":feature-categories")
+include(":feature-main")
 
 
 include(":core")

@@ -18,10 +18,10 @@ import dev.wxlf.kushats.feature_bag.di.modules.BagUseCaseModule
 import dev.wxlf.kushats.feature_catalog.di.modules.CatalogDataModule
 import dev.wxlf.kushats.feature_catalog.di.modules.CatalogModule
 import dev.wxlf.kushats.feature_catalog.di.modules.CatalogUseCaseModule
-import dev.wxlf.kushats.feature_categories.di.modules.CategoriesDataModule
-import dev.wxlf.kushats.feature_categories.di.modules.CategoriesModule
-import dev.wxlf.kushats.feature_categories.di.modules.CategoriesUseCaseModule
-import dev.wxlf.kushats.feature_categories.presentation.fragments.CategoriesFragment
+import dev.wxlf.kushats.feature_main.di.modules.MainDataModule
+import dev.wxlf.kushats.feature_main.di.modules.MainModule
+import dev.wxlf.kushats.feature_main.di.modules.MainUseCaseModule
+import dev.wxlf.kushats.feature_main.presentation.fragments.MainFragment
 import javax.inject.Singleton
 
 @Component(
@@ -29,17 +29,17 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         ContextModule::class,
         MainActivityModule::class,
-        //Data
+        // Data
         NetworkModule::class,
         RoomModule::class,
-        //ViewModel
+        // ViewModel
         ViewModelFactoryModule::class,
         ViewModelModule::class,
-        //Categories
-        CategoriesModule::class,
-        CategoriesDataModule::class,
-        CategoriesUseCaseModule::class,
-        //Catalog
+        // Main
+        MainModule::class,
+        MainDataModule::class,
+        MainUseCaseModule::class,
+        // Catalog
         CatalogModule::class,
         CatalogDataModule::class,
         CatalogUseCaseModule::class,
@@ -60,5 +60,5 @@ interface AppComponent : AndroidInjector<KushatsApp> {
         fun build(): AppComponent
     }
 
-    fun inject(categoriesFragment: CategoriesFragment)
+    fun inject(mainFragment: MainFragment)
 }
