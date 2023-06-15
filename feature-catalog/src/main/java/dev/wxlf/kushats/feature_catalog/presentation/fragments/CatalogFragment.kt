@@ -146,7 +146,7 @@ class CatalogFragment : Fragment() {
                 .setPositiveButton(R.string.retry_error_dialog_button) { _, _ ->
                 }
                 .setNegativeButton(R.string.back_error_dialog_button) { _, _ ->
-                    findNavController().navigateUp()
+                    findNavController().popBackStack()
                 }
                 .setOnDismissListener {
                     viewModel.fetchCategory(safeArgs.categoryId)

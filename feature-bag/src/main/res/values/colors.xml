@@ -3,4 +3,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="date_text_color">#80000000</color>
+    <color name="product_image_background">#FFF8F7F5</color>
+    <color name="product_weight_color">#66000000</color>
+    <color name="product_count_color">#FFEFEEEC</color>
 </resources>

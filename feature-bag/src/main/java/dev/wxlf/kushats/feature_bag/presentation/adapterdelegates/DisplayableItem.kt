@@ -1,0 +1,3 @@
+package dev.wxlf.kushats.feature_bag.presentation.adapterdelegates
+
+interface DisplayableItem

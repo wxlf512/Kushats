@@ -4,9 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dev.wxlf.kushats.feature_bag.domain.repositories.BagRepository
 import dev.wxlf.kushats.feature_bag.domain.repositories.FoodRepository
-import dev.wxlf.kushats.feature_bag.domain.usecases.DecrementProductCountUseCase
+import dev.wxlf.kushats.feature_bag.domain.usecases.ChangeProductCountUseCase
 import dev.wxlf.kushats.feature_bag.domain.usecases.FetchDishesUseCase
-import dev.wxlf.kushats.feature_bag.domain.usecases.IncrementProductCountUseCase
 import javax.inject.Singleton
 
 @Module
@@ -22,11 +21,6 @@ class BagUseCaseModule {
 
     @Provides
     @Singleton
-    fun provideIncrementProductCountUseCase(bagRepository: BagRepository): IncrementProductCountUseCase =
-        IncrementProductCountUseCase(bagRepository)
-
-    @Provides
-    @Singleton
-    fun provideDecrementProductCountUseCase(bagRepository: BagRepository): DecrementProductCountUseCase =
-        DecrementProductCountUseCase(bagRepository)
+    fun provideChangeProductCountUseCase(bagRepository: BagRepository): ChangeProductCountUseCase =
+        ChangeProductCountUseCase(bagRepository)
 }

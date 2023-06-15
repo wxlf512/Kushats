@@ -1,6 +1,7 @@
 package dev.wxlf.kushats.feature_bag.presentation.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
@@ -10,18 +11,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import dagger.android.support.AndroidSupportInjection
+import dev.wxlf.kushats.feature_bag.R
+import dev.wxlf.kushats.feature_bag.common.ProductCount
 import dev.wxlf.kushats.feature_bag.databinding.FragmentBagBinding
+import dev.wxlf.kushats.feature_bag.domain.usecases.ChangeProductCountUseCase
+import dev.wxlf.kushats.feature_bag.domain.usecases.FetchDishesUseCase
+import dev.wxlf.kushats.feature_bag.domain.usecases.mapToDisplayable
+import dev.wxlf.kushats.feature_bag.presentation.adapterdelegates.productAdapterDelegate
 import dev.wxlf.kushats.feature_bag.presentation.viewmodels.BagViewModel
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
@@ -37,6 +51,9 @@ class BagFragment : Fragment() {
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var currentLocation: Location? = null
+
+    private var fetchDishesAlertDialog: AlertDialog? = null
+    private var changeAlertDialog: AlertDialog? = null
 
     private val locationPermissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -58,6 +75,7 @@ class BagFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -67,6 +85,90 @@ class BagFragment : Fragment() {
 
         val formatter = SimpleDateFormat("d MMMM, y", resources.configuration.locales.get(0))
         binding.date.text = formatter.format(Date())
+
+        val adapter = ListDelegationAdapter(
+            productAdapterDelegate(
+                decrementClickListener = {
+                    viewModel.changeProductCount(
+                        it,
+                        ProductCount.DECREMENT
+                    )
+                },
+                incrementClickListener = {
+                    viewModel.changeProductCount(
+                        it,
+                        ProductCount.INCREMENT
+                    )
+                }
+            )
+        )
+
+        binding.productsList.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.productsList.adapter = adapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.fetchDishesState.collect { result ->
+                when (result) {
+                    is FetchDishesUseCase.Result.Failure -> {
+                        binding.circularLoader.visibility = View.GONE
+                        binding.productsList.visibility = View.GONE
+                        if (fetchDishesAlertDialog == null) {
+                            fetchDishesAlertDialog = MaterialAlertDialogBuilder(requireContext())
+                                .setTitle(R.string.error_dialog_title)
+                                .setMessage(result.msg)
+                                .setPositiveButton(R.string.retry_error_dialog_button) { _, _ ->
+                                }
+                                .setNegativeButton(R.string.back_error_dialog_button) { _, _ ->
+                                    findNavController().popBackStack()
+                                }
+                                .setOnDismissListener {
+                                    viewModel.fetchDishes()
+                                }
+                                .create()
+                        }
+                        fetchDishesAlertDialog?.show()
+                    }
+
+                    FetchDishesUseCase.Result.Loading -> {
+                        binding.circularLoader.visibility = View.VISIBLE
+                        binding.productsList.visibility = View.GONE
+                    }
+
+                    is FetchDishesUseCase.Result.Success -> {
+                        binding.circularLoader.visibility = View.GONE
+                        binding.productsList.visibility = View.VISIBLE
+                        adapter.items = result.dishes.mapToDisplayable(result.products)
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.changeProductCountState.collect { result ->
+                when (result) {
+                    is ChangeProductCountUseCase.Result.Failure -> {
+                        if (changeAlertDialog == null) {
+                            changeAlertDialog = MaterialAlertDialogBuilder(requireContext())
+                                .setTitle(R.string.error_dialog_title)
+                                .setMessage(result.msg)
+                                .setNegativeButton(getString(R.string.close_error_dialog_button)) { _, _ ->
+                                }
+                                .create()
+                        }
+                        changeAlertDialog?.show()
+                    }
+
+                    ChangeProductCountUseCase.Result.Loading -> {}
+                    ChangeProductCountUseCase.Result.Success -> {
+                        viewModel.fetchDishes()
+                    }
+                }
+            }
+        }
+
+        viewModel.fetchDishes()
     }
 
     private fun fetchLocation() {

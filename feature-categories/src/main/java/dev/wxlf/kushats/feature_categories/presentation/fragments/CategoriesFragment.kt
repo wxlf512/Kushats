@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -129,6 +128,7 @@ class CategoriesFragment : Fragment() {
         viewModel.fetchCategories()
     }
 
+    @Suppress("DEPRECATION")
     private fun fetchLocation() {
         if (ActivityCompat.checkSelfPermission
                 (
@@ -159,12 +159,12 @@ class CategoriesFragment : Fragment() {
             else {
                 val geocoder =
                     Geocoder(requireActivity().baseContext, resources.configuration.locales.get(0))
-                @Suppress("DEPRECATION") val addresses =
-                    geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                if (addresses != null) {
-                    if (addresses.size > 0)
-                        binding.userCity.text = addresses[0].locality
-                }
+                val addresses =
+                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    if (addresses != null) {
+                        if (addresses.size > 0)
+                            binding.userCity.text = addresses[0].locality
+                    }
             }
         }
     }
