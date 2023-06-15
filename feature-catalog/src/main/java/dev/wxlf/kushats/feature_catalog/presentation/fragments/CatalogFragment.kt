@@ -21,6 +21,7 @@ import dev.wxlf.kushats.feature_catalog.databinding.FragmentCatalogBinding
 import dev.wxlf.kushats.feature_catalog.domain.usecases.FetchCategoryUseCase
 import dev.wxlf.kushats.feature_catalog.domain.usecases.FetchDishesUseCase
 import dev.wxlf.kushats.feature_catalog.domain.usecases.mapToDisplayable
+import dev.wxlf.kushats.feature_catalog.presentation.adapterdelegates.DisplayableItem
 import dev.wxlf.kushats.feature_catalog.presentation.adapterdelegates.dishesAdapterDelegate
 import dev.wxlf.kushats.feature_catalog.presentation.viewmodels.CatalogViewModel
 import kotlinx.coroutines.launch
@@ -38,12 +39,26 @@ class CatalogFragment : Fragment() {
     lateinit var factory: ViewModelProvider.Factory
     private lateinit var viewModel: CatalogViewModel
 
+    private lateinit var adapter: ListDelegationAdapter<List<DisplayableItem>>
     private var alertDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         viewModel = ViewModelProvider(this, factory)[CatalogViewModel::class.java]
         super.onCreate(savedInstanceState)
+
+        adapter = ListDelegationAdapter(
+            dishesAdapterDelegate {
+                val productDialog = ProductDialogFragment.newInstance(it.id)
+                productDialog.show(
+                    requireActivity().supportFragmentManager,
+                    getString(R.string.product)
+                )
+            }
+        )
+
+        viewModel.fetchDishes(getString(R.string.all_menu_chip))
+        viewModel.fetchCategory(safeArgs.categoryId)
     }
 
 
@@ -64,19 +79,9 @@ class CatalogFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        val adapter = ListDelegationAdapter(
-            dishesAdapterDelegate {
-                val productDialog = ProductDialogFragment.newInstance(it.id)
-                productDialog.show(requireActivity().supportFragmentManager, getString(R.string.product))
-            }
-        )
-
         binding.productsList.layoutManager =
             GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
         binding.productsList.adapter = adapter
-
-        viewModel.fetchCategory(safeArgs.categoryId)
-        viewModel.fetchDishes(binding.chips.findViewById<Chip>(binding.chips.checkedChipId).text.toString())
 
         binding.chips.setOnCheckedStateChangeListener { group, checkedIds ->
             viewModel.fetchDishes(group.findViewById<Chip>(checkedIds[0]).text.toString())

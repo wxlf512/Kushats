@@ -41,6 +41,7 @@ class ProductDialogFragment : DialogFragment() {
         arguments?.let {
             id = it.getInt(ID)
         }
+        viewModel.fetchDish(id ?: -1)
     }
 
     @SuppressLint("UseGetLayoutInflater")
@@ -66,8 +67,6 @@ class ProductDialogFragment : DialogFragment() {
         binding.dismissButton.setOnClickListener {
             dismiss()
         }
-
-        viewModel.fetchDish(id ?: -1)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchDishState.collect { result ->
@@ -105,6 +104,11 @@ class ProductDialogFragment : DialogFragment() {
 
                         binding.addToBagButton.setOnClickListener {
                             viewModel.addDishToBag(dish)
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.added_to_bag, dish.name),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
@@ -117,10 +121,12 @@ class ProductDialogFragment : DialogFragment() {
                         Toast.makeText(requireContext(), result.msg, Toast.LENGTH_LONG).show()
                         dismiss()
                     }
+
                     AddProductToBagUseCase.Result.Loading -> {
                         binding.circleLoader.visibility = View.VISIBLE
                         binding.content.visibility = View.GONE
                     }
+
                     AddProductToBagUseCase.Result.Success -> {
                         dismiss()
                     }

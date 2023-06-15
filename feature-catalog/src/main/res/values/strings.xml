@@ -25,4 +25,5 @@
     <string name="product_price_placeholder">799 ₽</string>
     <string name="currency">₽</string>
     <string name="mass_unit">г</string>
+    <string name="added_to_bag">%1$s добавлен в корзину</string>
 </resources>

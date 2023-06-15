@@ -33,6 +33,7 @@ import dev.wxlf.kushats.feature_bag.databinding.FragmentBagBinding
 import dev.wxlf.kushats.feature_bag.domain.usecases.ChangeProductCountUseCase
 import dev.wxlf.kushats.feature_bag.domain.usecases.FetchDishesUseCase
 import dev.wxlf.kushats.feature_bag.domain.usecases.mapToDisplayable
+import dev.wxlf.kushats.feature_bag.presentation.adapterdelegates.DisplayableItem
 import dev.wxlf.kushats.feature_bag.presentation.adapterdelegates.productAdapterDelegate
 import dev.wxlf.kushats.feature_bag.presentation.viewmodels.BagViewModel
 import kotlinx.coroutines.launch
@@ -52,6 +53,8 @@ class BagFragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var currentLocation: Location? = null
 
+    private var firstSuccess = false
+    private lateinit var adapter: ListDelegationAdapter<List<DisplayableItem>>
     private var fetchDishesAlertDialog: AlertDialog? = null
     private var changeAlertDialog: AlertDialog? = null
 
@@ -64,34 +67,9 @@ class BagFragment : Fragment() {
         AndroidSupportInjection.inject(this)
         viewModel = ViewModelProvider(this, factory)[BagViewModel::class.java]
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentBagBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        var firstSuccess = false
-
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
-        fetchLocation()
-
-        val formatter = SimpleDateFormat("d MMMM, y", resources.configuration.locales.get(0))
-        binding.date.text = formatter.format(Date())
-
-        binding.payButton.setOnClickListener {
-            Toast.makeText(requireContext(), getString(R.string.pay), Toast.LENGTH_LONG).show()
-        }
-
-        val adapter = ListDelegationAdapter(
+        adapter = ListDelegationAdapter(
             productAdapterDelegate(
                 decrementClickListener = {
                     viewModel.changeProductCount(
@@ -107,6 +85,32 @@ class BagFragment : Fragment() {
                 }
             )
         )
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentBagBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fetchLocation()
+
+        val formatter = SimpleDateFormat(
+            getString(R.string.date_format),
+            resources.configuration.locales.get(0)
+        )
+        binding.date.text = formatter.format(Date())
+
+        binding.payButton.setOnClickListener {
+            Toast.makeText(requireContext(), getString(R.string.pay), Toast.LENGTH_LONG).show()
+        }
 
         binding.productsList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

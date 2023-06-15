@@ -33,6 +33,7 @@ import dev.wxlf.kushats.feature_categories.R
 import dev.wxlf.kushats.feature_categories.databinding.FragmentCategoriesBinding
 import dev.wxlf.kushats.feature_categories.domain.usecases.FetchCategoriesUseCase
 import dev.wxlf.kushats.feature_categories.domain.usecases.mapToDisplayable
+import dev.wxlf.kushats.feature_categories.presentation.adapterdelegates.DisplayableItem
 import dev.wxlf.kushats.feature_categories.presentation.adapterdelegates.categoryAdapterDelegate
 import dev.wxlf.kushats.feature_categories.presentation.viewmodels.CategoriesViewModel
 import kotlinx.coroutines.launch
@@ -53,6 +54,8 @@ class CategoriesFragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var currentLocation: Location? = null
 
+    private lateinit var adapter: ListDelegationAdapter<List<DisplayableItem>>
+
     private val locationPermissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION
@@ -67,6 +70,17 @@ class CategoriesFragment : Fragment() {
         AndroidSupportInjection.inject(this)
         viewModel = ViewModelProvider(this, factory)[CategoriesViewModel::class.java]
         super.onCreate(savedInstanceState)
+
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
+
+        adapter = ListDelegationAdapter(
+            categoryAdapterDelegate {
+                findNavController().navigate(Uri.parse(DeepLinks.CATALOG.link + it.id))
+            }
+        )
+
+        viewModel.fetchCategories()
     }
 
     override fun onCreateView(
@@ -81,18 +95,13 @@ class CategoriesFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(requireContext())
-        fetchLocation()
 
-        val formatter = SimpleDateFormat("d MMMM, y", resources.configuration.locales.get(0))
-        binding.date.text = formatter.format(Date())
-
-        val adapter = ListDelegationAdapter(
-            categoryAdapterDelegate {
-                findNavController().navigate(Uri.parse(DeepLinks.CATALOG.link + it.id))
-            }
+        val formatter = SimpleDateFormat(
+            getString(R.string.date_format),
+            resources.configuration.locales.get(0)
         )
+        binding.date.text = formatter.format(Date())
+        fetchLocation()
 
         binding.categoriesList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -129,8 +138,6 @@ class CategoriesFragment : Fragment() {
                 }
             }
         }
-
-        viewModel.fetchCategories()
     }
 
     @Suppress("DEPRECATION")
@@ -165,11 +172,11 @@ class CategoriesFragment : Fragment() {
                 val geocoder =
                     Geocoder(requireActivity().baseContext, resources.configuration.locales.get(0))
                 val addresses =
-                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    if (addresses != null) {
-                        if (addresses.size > 0)
-                            binding.userCity.text = addresses[0].locality
-                    }
+                    geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                if (addresses != null) {
+                    if (addresses.size > 0)
+                        binding.userCity.text = addresses[0].locality
+                }
             }
         }
     }

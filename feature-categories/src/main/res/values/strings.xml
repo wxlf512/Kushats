@@ -8,4 +8,5 @@
     <string name="category_image">Category image</string>
     <string name="error_dialog_title">Ошибка</string>
     <string name="retry_error_dialog_button">Повторить</string>
+    <string name="date_format">d MMMM, y</string>
 </resources>
