@@ -2,6 +2,7 @@ package dev.wxlf.kushats.feature_categories.presentation.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
@@ -17,7 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -58,6 +58,11 @@ class CategoriesFragment : Fragment() {
         Manifest.permission.ACCESS_FINE_LOCATION
     )
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().supportFragmentManager.popBackStack()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         viewModel = ViewModelProvider(this, factory)[CategoriesViewModel::class.java]
@@ -76,7 +81,6 @@ class CategoriesFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
         fetchLocation()
@@ -86,11 +90,7 @@ class CategoriesFragment : Fragment() {
 
         val adapter = ListDelegationAdapter(
             categoryAdapterDelegate {
-                findNavController().navigate(Uri.parse(DeepLinks.CATALOG.link + it.id), navOptions {
-                    popUpTo(R.id.categoriesFragment, popUpToBuilder = {
-                        inclusive = true
-                    })
-                })
+                findNavController().navigate(Uri.parse(DeepLinks.CATALOG.link + it.id))
             }
         )
 

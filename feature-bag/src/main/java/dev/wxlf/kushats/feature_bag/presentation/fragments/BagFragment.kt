@@ -270,4 +270,9 @@ class BagFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onDetach() {
+        requireActivity().supportFragmentManager.popBackStack()
+        super.onDetach()
+    }
 }
