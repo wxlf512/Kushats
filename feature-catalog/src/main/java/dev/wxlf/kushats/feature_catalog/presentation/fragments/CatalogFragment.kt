@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -67,7 +66,8 @@ class CatalogFragment : Fragment() {
 
         val adapter = ListDelegationAdapter(
             dishesAdapterDelegate {
-                Toast.makeText(requireContext(), it.name, Toast.LENGTH_SHORT).show()
+                val productDialog = ProductDialogFragment.newInstance(it.id)
+                productDialog.show(requireActivity().supportFragmentManager, getString(R.string.product))
             }
         )
 
@@ -155,5 +155,10 @@ class CatalogFragment : Fragment() {
                 .create()
         }
         alertDialog?.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

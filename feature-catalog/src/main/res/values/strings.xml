@@ -14,4 +14,15 @@
     <string name="error_dialog_title">Ошибка</string>
     <string name="retry_error_dialog_button">Повторить</string>
     <string name="back_error_dialog_button">Назад</string>
+    <string name="product">Product</string>
+    <string name="favorite_button">Favorite button</string>
+    <string name="dismiss_button">Dismiss button</string>
+    <string name="dish_not_found">Товар не найден</string>
+    <string name="add_to_bag">Добавить в корзину</string>
+    <string name="product_description_placeholder">Описание товара</string>
+    <string name="price_and_weight_divider">&#032;·&#032;</string>
+    <string name="product_weight_placeholder">560г</string>
+    <string name="product_price_placeholder">799 ₽</string>
+    <string name="currency">₽</string>
+    <string name="mass_unit">г</string>
 </resources>
