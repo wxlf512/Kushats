@@ -75,9 +75,10 @@ class BagFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var firstSuccess = false
 
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
@@ -85,6 +86,10 @@ class BagFragment : Fragment() {
 
         val formatter = SimpleDateFormat("d MMMM, y", resources.configuration.locales.get(0))
         binding.date.text = formatter.format(Date())
+
+        binding.payButton.setOnClickListener {
+            Toast.makeText(requireContext(), getString(R.string.pay), Toast.LENGTH_LONG).show()
+        }
 
         val adapter = ListDelegationAdapter(
             productAdapterDelegate(
@@ -113,6 +118,7 @@ class BagFragment : Fragment() {
                     is FetchDishesUseCase.Result.Failure -> {
                         binding.circularLoader.visibility = View.GONE
                         binding.productsList.visibility = View.GONE
+                        binding.payButton.visibility = View.GONE
                         if (fetchDishesAlertDialog == null) {
                             fetchDishesAlertDialog = MaterialAlertDialogBuilder(requireContext())
                                 .setTitle(R.string.error_dialog_title)
@@ -131,15 +137,26 @@ class BagFragment : Fragment() {
                     }
 
                     FetchDishesUseCase.Result.Loading -> {
-                        binding.circularLoader.visibility = View.VISIBLE
-                        binding.productsList.visibility = View.GONE
+                        if (!firstSuccess) {
+                            binding.circularLoader.visibility = View.VISIBLE
+                            binding.productsList.visibility = View.GONE
+                            binding.payButton.visibility = View.GONE
+                        }
                     }
 
                     is FetchDishesUseCase.Result.Success -> {
+                        firstSuccess = true
                         binding.circularLoader.visibility = View.GONE
                         binding.productsList.visibility = View.VISIBLE
-                        adapter.items = result.dishes.mapToDisplayable(result.products)
+                        binding.payButton.visibility = View.VISIBLE
+
+                        val items = result.dishes.mapToDisplayable(result.products)
+                        adapter.items = items
                         adapter.notifyDataSetChanged()
+
+                        val sum = items.sumOf { it.count * it.price }
+                        binding.payButton.text =
+                            "${getString(R.string.pay_button)} $sum ${getString(R.string.currency)}"
                     }
                 }
             }

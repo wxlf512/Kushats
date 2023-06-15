@@ -18,4 +18,7 @@
     <string name="product_count_placeholder">1</string>
     <string name="back_error_dialog_button">Назад</string>
     <string name="close_error_dialog_button">Закрыть</string>
+    <string name="pay_placeholder">Оплатить 9999 ₽</string>
+    <string name="pay">Оплата</string>
+    <string name="pay_button">Оплатить</string>
 </resources>
