@@ -1,23 +1,20 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kapt)
     alias(libs.plugins.safeArgs)
 }
 
 android {
-    namespace = "dev.wxlf.kushats"
+    namespace = "dev.wxlf.kushats.feature_category"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "dev.wxlf.kushats"
         minSdk = 28
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -45,20 +42,18 @@ android {
 }
 
 dependencies {
-
     // Project
     implementation(projects.core)
-    implementation(projects.featureMain)
-    implementation(projects.featureCategory)
-    implementation(projects.featureBag)
 
     // Core
     implementation(libs.core.ktx)
+    implementation(libs.legacy.support.v4)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
 
     // UI
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.constraintlayout)
 
     // Navigation
     implementation(libs.bundles.navigation)
@@ -67,6 +62,12 @@ dependencies {
     implementation(libs.dagger2)
     api(libs.bundles.dagger2.api)
     kapt(libs.bundles.dagger2.kapt)
+
+    // AdapterDelegates
+    implementation(libs.bundles.adapterdelegates4)
+
+    // Coil
+    implementation(libs.coil)
 
     // Test
     testImplementation(libs.junit)

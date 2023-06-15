@@ -3,10 +3,10 @@
 include(":feature-bag")
 
 
-include(":feature-catalog")
+include(":feature-category")
 
 
-include(":feature-categories")
+include(":feature-main")
 
 
 include(":core")
