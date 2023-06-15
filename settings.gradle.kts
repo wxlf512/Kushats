@@ -3,7 +3,7 @@
 include(":feature-bag")
 
 
-include(":feature-catalog")
+include(":feature-category")
 
 
 include(":feature-main")

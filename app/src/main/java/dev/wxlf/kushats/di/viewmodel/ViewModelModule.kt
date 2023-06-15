@@ -5,8 +5,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import dev.wxlf.kushats.feature_bag.presentation.viewmodels.BagViewModel
-import dev.wxlf.kushats.feature_catalog.presentation.viewmodels.CatalogViewModel
-import dev.wxlf.kushats.feature_catalog.presentation.viewmodels.ProductDialogViewModel
+import dev.wxlf.kushats.feature_category.presentation.viewmodels.CategoryViewModel
+import dev.wxlf.kushats.feature_category.presentation.viewmodels.ProductDialogViewModel
 import dev.wxlf.kushats.feature_main.presentation.viewmodels.MainViewModel
 
 @Module
@@ -19,8 +19,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(CatalogViewModel::class)
-    abstract fun bindsCatalogViewModel(viewModel: CatalogViewModel): ViewModel
+    @ViewModelKey(CategoryViewModel::class)
+    abstract fun bindsCategoryViewModel(viewModel: CategoryViewModel): ViewModel
 
     @Binds
     @IntoMap

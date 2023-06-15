@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_category"
+    app:startDestination="@id/categoryFragment">
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="dev.wxlf.kushats.feature_category.presentation.fragments.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category">
+        <!--suppress NavigationFile -->
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+        <deepLink app:uri="kushats://category/{categoryId}" />
+    </fragment>
+</navigation>

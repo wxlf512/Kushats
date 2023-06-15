@@ -76,7 +76,7 @@ class MainFragment : Fragment() {
 
         adapter = ListDelegationAdapter(
             categoryAdapterDelegate {
-                findNavController().navigate(Uri.parse(DeepLinks.CATALOG.link + it.id))
+                findNavController().navigate(Uri.parse(DeepLinks.CATEGORY.link + it.id))
             }
         )
 
